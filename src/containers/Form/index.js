@@ -46,7 +46,7 @@ const Form = ({ onSuccess, onError }) => {
     } else {
       buttonType = BUTTON_TYPES.SUBMIT;
     }
-    
+
   return (
     <form onSubmit={sendContact}>
       <div className="row">
@@ -61,7 +61,7 @@ const Form = ({ onSuccess, onError }) => {
             titleEmpty
           />
           <Field placeholder="" label="Email" />
-          <Button type={buttonType}>
+          <Button type={buttonType} data-testid="button-test-id">
             {buttonText}
           </Button>
         </div>
