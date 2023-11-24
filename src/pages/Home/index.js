@@ -14,10 +14,19 @@ import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const {data} = useData()
-  const byDateDesc = data?.focus?.length > 0
-  ? [...data.focus].sort((evtA, evtB) => new Date(evtA.date) < new Date(evtB.date) ? -1 : 1)
-  : [];
-  const last = byDateDesc[byDateDesc.length -1 ];
+  
+  const last =
+    data && data.events && data.events.length > 0
+      ? data.events.reduce((latest, current) => {
+
+          const latestDate = new Date(latest.date);
+          const currentDate = new Date(current.date);
+
+          return currentDate > latestDate ? current : latest;
+        })
+      : null;
+
+
   return <>
     <header>
       <Menu />
@@ -102,8 +111,8 @@ const Page = () => {
             <div className="ModalMessage--success">
               <div>Message envoyé !</div>
               <p>
-                Merci pour votre message nous tâcherons de vous répondre dans
-                les plus brefs délais
+                Merci pour votre message, nous tâcherons de vous répondre dans
+                les plus brefs délais.
               </p>
             </div>
           }
@@ -120,13 +129,17 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre dernière prestation</h3>
-        <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
+        {last && (
+          <EventCard
+            data-testid="last-event-card"
+            imageSrc={last?.cover}
+            imageAlt={last?.description}
+            title={last?.title}
+            date={new Date(last?.date)}
+            small
+            label={last?.type}
+          />
+        )}
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
