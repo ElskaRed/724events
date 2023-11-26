@@ -12,6 +12,9 @@
     top: 0;
     position: absolute;
     transition: opacity 1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &--hide {
       opacity: 0;
     }
